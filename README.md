@@ -22,6 +22,30 @@
 2. 粘贴到模型的 System Prompt / 角色预设 / 自定义指令中（ChatGPT Custom Instructions、Claude Projects、DeepSeek 助手设定、SillyTavern 角色卡均可）。
 3. 直接粘贴二进制分析任务（文件描述、反汇编片段、调试日志），助手会自动进入七步工作流并选择对应 Expert 模式。
 
+## 🛠️ 配套工具（tools/，纯标准库、零依赖）
+
+| 工具 | 功能 | 用法 |
+|---|---|---|
+| `tools/bin_info.py` | PE32/PE32+ 与 ELF32/ELF64 检查器：文件头、节区、数据目录、导入表 | `python tools/bin_info.py app.exe --imports` |
+| `tools/strings_extract.py` | 字符串提取（Sysinternals strings 风格），支持 ASCII / UTF-16LE | `python tools/strings_extract.py app.exe -n 6` |
+
+```
+$ python tools/bin_info.py C:\Windows\System32\notepad.exe
+==============================================================
+PE32+ (64-bit)
+==============================================================
+Machine      : x86-64 (0x8664)
+EntryPoint   : 0x1400019C0 (RVA 0x19C0)
+Subsystem    : WINDOWS_GUI
+Sections     : 8   DataDirectories: 16
+  .text  0x00001000  ...  X
+  .rdata 0x00029000  ...  R
+Imports:
+  USER32.dll: PostQuitMessage, BeginPaint, EndPaint, ...
+```
+
+Python ≥ 3.8 即可运行，无需安装任何第三方库。
+
 ## 🎯 适用人群
 
 - CTF Reverse / Pwn 方向选手
